@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PoC.ES.Api.Domain.Repositories;
+using PoC.ES.Api.Infra.Repositories;
 
 namespace PoC.ES.Api
 {
@@ -25,6 +27,9 @@ namespace PoC.ES.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: Change config
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            CustomerRepository.LoadDatabase();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
