@@ -33,5 +33,23 @@ namespace PoC.ES.Tests.Infra.Repositories
             Assert.Equal(customer.Id, customerFound.Id);
             Assert.True(customerFound.Limits.Count > 0);
         }
+
+        [Fact]
+        public void AddLimitInCustomer()
+        {
+            //arrange
+            var customer = new Customer("company123", "document123");
+            customer.AddLimit(new Limit("documento", 500));
+            _repository.Add(customer);
+
+            //act
+            _repository.AddLimit(customer.Id, new Limit("cartão", 300));
+            var customerFound = _repository.Get(customer.Id);
+
+            //assert
+            Assert.NotNull(customerFound);
+            Assert.Equal(customer.Id, customerFound.Id);
+            Assert.True(customerFound.Limits.Count == 2);
+        }
     }
 }

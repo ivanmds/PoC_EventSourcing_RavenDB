@@ -22,6 +22,7 @@ namespace PoC.ES.Api.Domain.Entities
             get => _lists;
             private set
             {
+                _lists.Clear();
                 _lists.AddRange(value);
             }
         }

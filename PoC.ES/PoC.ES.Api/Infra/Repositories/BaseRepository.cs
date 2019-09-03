@@ -26,7 +26,7 @@ namespace PoC.ES.Api.Infra.Repositories
 
         public void Add(TEntity entity)
         {
-            using (var session = this.Store.OpenSession())
+            using (var session = Store.OpenSession())
             {
                 session.Store(entity);
                 session.SaveChanges();
@@ -35,7 +35,7 @@ namespace PoC.ES.Api.Infra.Repositories
 
         public TEntity Get(string id)
         {
-            using (var session = this.Store.OpenSession())
+            using (var session = Store.OpenSession())
                 return session.Load<TEntity>(id);
         }
     }
