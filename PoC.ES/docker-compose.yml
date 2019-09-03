@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  poc.es.api:
+    image: ${DOCKER_REGISTRY-}pocesapi
+    build:
+      context: .
+      dockerfile: PoC.ES.Api/Dockerfile
+    depends_on:
+      - raven_db
+
+  raven_db:
+    image: ravendb/ravendb
+    environment:
+      - RAVEN_Setup_Mode=None 
+      - RAVEN_License_Eula_Accepted=true 
+      - RAVEN_Security_UnsecuredAccessAllowed=PrivateNetwork
+    ports:
+      - "8080:8080"
+      - "38888:38888"
