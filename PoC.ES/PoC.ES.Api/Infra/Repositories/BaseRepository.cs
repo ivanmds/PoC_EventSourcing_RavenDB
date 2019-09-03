@@ -1,42 +1,42 @@
-﻿using Raven.Client.Documents;
-using Raven.Client.ServerWide;
-using Raven.Client.ServerWide.Operations;
-using System.Linq;
+﻿using PoC.ES.Api.Domain.Repositories;
+using Raven.Client.Documents;
 
 namespace PoC.ES.Api.Infra.Repositories
 {
-    public abstract class BaseRepository
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected DocumentStore Store { get; private set; }
 
-
-        public BaseRepository()
+        public BaseRepository(string url)
         {
             Store = new DocumentStore
             {
-                Urls = new[] { "http://raven_db:8080" },
-                Database = DataBase
+                Urls = new[] { url },
+                Database = Settings.DataBase
             };
 
             Store.Initialize();
         }
 
-        private static string DataBase => "scouter";
-
-        public static void LoadDatabase()
+        public BaseRepository()
+            :this("http://raven_db:8080")
         {
-            var store = new DocumentStore { Urls = new[] { "http://raven_db:8080" } };
-            store.Initialize();
+        }
 
-           
-            var operation = new GetDatabaseNamesOperation(0, 100);
-            var databases = store.Maintenance.Server.Send(operation);
 
-            if (!databases.Contains(DataBase))
+        public void Add(TEntity entity)
+        {
+            using (var session = this.Store.OpenSession())
             {
-                var createDb = new CreateDatabaseOperation(new DatabaseRecord(DataBase));
-                store.Maintenance.Server.Send(createDb);
+                session.Store(entity);
+                session.SaveChanges();
             }
+        }
+
+        public TEntity Get(string id)
+        {
+            using (var session = this.Store.OpenSession())
+                return session.Load<TEntity>(id);
         }
     }
 }

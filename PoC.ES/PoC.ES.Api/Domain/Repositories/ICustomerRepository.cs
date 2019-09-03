@@ -1,6 +1,8 @@
-﻿namespace PoC.ES.Api.Domain.Repositories
+﻿using PoC.ES.Api.Domain.Entities;
+
+namespace PoC.ES.Api.Domain.Repositories
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository: IBaseRepository<Customer>
     {
     }
 }

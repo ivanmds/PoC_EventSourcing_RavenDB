@@ -8,7 +8,6 @@
             Amount = amount;
         }
 
-        public string Id { get; private set; }
         public string Type { get; private set; }
         public int Amount { get; private set; }
     }

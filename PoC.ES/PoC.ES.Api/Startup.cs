@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PoC.ES.Api.Domain.Repositories;
+using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories;
 
 namespace PoC.ES.Api
@@ -29,7 +30,7 @@ namespace PoC.ES.Api
         {
             //TODO: Change config
             services.AddTransient<ICustomerRepository, CustomerRepository>();
-            CustomerRepository.LoadDatabase();
+            Settings.LoadDatabase();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
