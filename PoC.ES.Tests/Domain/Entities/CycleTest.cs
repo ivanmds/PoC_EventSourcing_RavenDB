@@ -1,6 +1,5 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Entities.Limits.Types;
-using PoC.ES.Api.Domain.Message;
 using Xunit;
 
 namespace PoC.ES.Tests.Domain.Entities
@@ -13,12 +12,13 @@ namespace PoC.ES.Tests.Domain.Entities
             //arrange
             var limitLevel = LimitLevel.Create(LevelType.Account, 10000, 1000);
             var cycle = Cycle.Create(CycleType.Daily);
-            
+            cycle.AddLimitLevel(limitLevel);
+
             //act
-            var result = cycle.AddLimitLevel(limitLevel);
+            var result = cycle.Validate();
 
             //assert
-            Assert.Equal(result, MessageOfDomain.Success);
+            Assert.True(result.IsValid);
         }
 
         [Fact]
@@ -31,10 +31,11 @@ namespace PoC.ES.Tests.Domain.Entities
             cycle.AddLimitLevel(limitLevel);
 
             //act
-            var result = cycle.AddLimitLevel(limitLevelDouble);
+            cycle.AddLimitLevel(limitLevelDouble);
+            var result = cycle.Validate();
 
             //assert
-            Assert.Equal(result, MessageOfDomain.AlreadyItem);
+            Assert.True(result.IsInvalid);
         }
     }
 }

@@ -6,7 +6,6 @@ using MediatR;
 using PoC.ES.Api.Domain.Commands.Limits;
 using PoC.ES.Api.Domain.Commands.Limits.Dtos;
 using PoC.ES.Api.Domain.Entities.Limits;
-using PoC.ES.Api.Domain.Message;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Results;
 
@@ -24,15 +23,15 @@ namespace PoC.ES.Api.Domain.Handles.Limits
         public async Task<ResultOfCommand> Handle(CreateLimitCompanyCommand request, CancellationToken cancellationToken)
         {
             var limitCompany = LimitCompany.Create(request.CompanyKey);
-            var codesLimitsParse = LimitsParse(request.Limits);
-            var codesAddLimits = limitCompany.AddLimits(codesLimitsParse.Limits);
-
+            var limits = LimitsParse(request.Limits);
+            limitCompany.AddLimits(limits);
+            
             var result = limitCompany.Validate();
-            result.AddErrorMessages(codesLimitsParse.Codes.Where(p => p.Code != MessageOfDomain.Success.Code));
-            result.AddErrorMessages(codesAddLimits.Where(p => p.Code != MessageOfDomain.Success.Code));
 
-            if (result.IsInvalid)
-                _companyRepository.AddOrUpdateAsync(limitCompany);
+            if (result.IsValid)
+                await _companyRepository.SaveAsync(limitCompany);
+            else
+                result.Data = request;
 
             return result;
         }
@@ -40,45 +39,33 @@ namespace PoC.ES.Api.Domain.Handles.Limits
 
         #region HELPER METHODS
 
-        private (IEnumerable<(string Code, string Message)> Codes, IEnumerable<Limit> Limits) LimitsParse(List<LimitDto> limitsDto)
+        private IEnumerable<Limit> LimitsParse(List<LimitDto> limitsDto)
         {
-            var listCodes = new List<(string Code, string Message)>();
-            var limits = new List<Limit>();
-
-            if (limitsDto.Any())
+            if (limitsDto?.Any() == true)
             {
                 foreach (var limitDto in limitsDto)
                 {
                     var limit = Limit.Create(limitDto.Type, limitDto.FeatureType, limitDto.RegistrationCompleted);
-                    var resultCycle = CyclesParse(limitDto.Cycles);
+                    var cycles = CyclesParse(limitDto.Cycles);
 
-                    listCodes.AddRange(resultCycle.Codes);
+                    limit.AddCycles(cycles);
 
-                    var codesAddCycles = limit.AddCycles(resultCycle.Cycles);
-                    listCodes.AddRange(codesAddCycles);
-
-                    limits.Add(limit);
+                    yield return limit;
                 }
             }
-
-            return (listCodes, limits);
         }
 
-        private (IEnumerable<(string Code, string Message)> Codes, IEnumerable<Cycle> Cycles) CyclesParse(List<CycleDto> cyclesDto)
+        private IEnumerable<Cycle> CyclesParse(List<CycleDto> cyclesDto)
         {
-            var listCodes = new List<(string Code, string Message)>();
-            var cycles = new List<Cycle>();
-
-            if (cyclesDto.Any())
+            if (cyclesDto?.Any() == true)
             {
                 foreach (var cycleDto in cyclesDto)
                 {
                     var cycle = Cycle.Create(cycleDto.Type);
-                    listCodes.AddRange(cycle.AddLimitLevels(LimitLevelsParse(cycleDto.LimitLevels)));
+                    cycle.AddLimitLevels(LimitLevelsParse(cycleDto.LimitLevels));
+                    yield return cycle;
                 }
             }
-
-            return (listCodes, cycles);
         }
 
         private IEnumerable<LimitLevel> LimitLevelsParse(List<LimitLevelDto> limitLevelsDto)

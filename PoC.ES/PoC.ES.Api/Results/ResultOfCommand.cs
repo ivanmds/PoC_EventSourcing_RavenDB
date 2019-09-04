@@ -5,7 +5,7 @@ namespace PoC.ES.Api.Results
 {
     public class ResultOfCommand
     {
-        public bool IsSuccess => !IsInvalid;
+        public bool IsValid => !IsInvalid;
         public bool IsInvalid => ErrorMessagens.Any();
 
         public List<(string Code, string Message)> ErrorMessagens { get; private set; }

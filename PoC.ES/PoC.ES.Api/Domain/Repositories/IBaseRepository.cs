@@ -5,7 +5,7 @@ namespace PoC.ES.Api.Domain.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : AggregateRoot
     {
-        Task AddOrUpdateAsync(TEntity entity);
+        Task SaveAsync(TEntity entity);
         Task<TEntity> GetAsync(string aggregateRootId);
     }
 }

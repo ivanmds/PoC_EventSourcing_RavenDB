@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
+using System.Reflection;
 
 namespace PoC.ES.Api
 {
@@ -23,7 +25,12 @@ namespace PoC.ES.Api
         {
             //TODO: Change config
             services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
+
+            services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+
             Settings.LoadDatabase();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

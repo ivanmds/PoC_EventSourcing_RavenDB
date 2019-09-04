@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
-    public class LimitCompany: LimitConfiguration, IValidated
+    public class LimitCompany : LimitConfiguration, IValidated
     {
         public LimitCompany(string companyKey) : base(companyKey) => Id = companyKey;
 
@@ -15,9 +15,20 @@ namespace PoC.ES.Api.Domain.Entities.Limits
         {
             var result = ResultOfCommand.Create();
 
-            if (!Limits.Any())
-                result.AddErrorMessage(MessageOfDomain.InvalidItem);
+            if (Limits.Any())
+            {
+                foreach (var limit in Limits)
+                {
+                    if (Limits.Where(l => l.Equals(limit)).Count() > 1)
+                        result.AddErrorMessage(MessageOfDomain.AlreadyHaveItem);
 
+                    var limitResult = limit.Validate();
+                    if (limitResult.IsInvalid)
+                        result.AddErrorMessages(limitResult.ErrorMessagens);
+                }
+            }
+            else
+                result.AddErrorMessage(MessageOfDomain.InvalidItem);
 
             return result;
         }

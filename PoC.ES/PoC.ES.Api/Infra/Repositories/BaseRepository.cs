@@ -26,7 +26,7 @@ namespace PoC.ES.Api.Infra.Repositories
         }
 
 
-        public async Task AddOrUpdateAsync(TEntity entity)
+        public async Task SaveAsync(TEntity entity)
         {
             using (var session = Store.OpenAsyncSession())
             {

@@ -1,12 +1,14 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Message;
+using PoC.ES.Api.Domain.Validation;
+using PoC.ES.Api.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
-    public class Limit : IEquatable<Limit>
+    public class Limit : IEquatable<Limit>, IValidated
     {
         public Limit(LimitType type, FeatureType featureType, bool registrationCompleted = false)
         {
@@ -26,25 +28,31 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _cycles.AddRange(value);
         }
 
-        public IEnumerable<(string Code, string Message)> AddCycles(IEnumerable<Cycle> cycles)
-        {
-            foreach (var cycle in cycles)
-                yield return AddCycle(cycle);
-        }
-
-        public (string Code, string Message) AddCycle(Cycle cycle)
-        {
-            var alreadyHave = _cycles.Any(c => c.Equals(cycle));
-            if (alreadyHave) return MessageOfDomain.AlreadyItem;
-
-            _cycles.Add(cycle);
-            return MessageOfDomain.Success;
-        }
+        public void AddCycles(IEnumerable<Cycle> cycles) => _cycles.AddRange(cycles);
+        public void AddCycle(Cycle cycle) => _cycles.Add(cycle);
 
         public bool Equals(Limit other)
         {
             return Type == other.Type && FeatureType == other.FeatureType;
         }
+
+        public ResultOfCommand Validate()
+        {
+            var result = ResultOfCommand.Create();
+
+            foreach (var cycle in Cycles)
+            {
+                if (Cycles.Where(c => c.Equals(cycle)).Count() > 1)
+                    result.AddErrorMessage(MessageOfDomain.AlreadyHaveItem);
+
+                var resultCycle = cycle.Validate();
+                if (resultCycle.IsInvalid)
+                    result.AddErrorMessages(resultCycle.ErrorMessagens);
+            }
+
+            return result;
+        }
+
 
         public static Limit Create(LimitType type, FeatureType featureType, bool registrationCompleted = false) =>
            new Limit(type, featureType, registrationCompleted);

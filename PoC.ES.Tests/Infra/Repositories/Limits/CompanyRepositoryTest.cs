@@ -29,7 +29,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             company.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
-            await _repository.AddOrUpdateAsync(company);
+            await _repository.SaveAsync(company);
             var companyFound = await _repository.GetAsync(company.Id);
 
             //assert

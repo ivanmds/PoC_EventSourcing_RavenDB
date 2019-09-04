@@ -3,10 +3,12 @@ using PoC.ES.Api.Domain.Entities.Limits.Types;
 using System.Collections.Generic;
 using System.Linq;
 using PoC.ES.Api.Domain.Message;
+using PoC.ES.Api.Domain.Validation;
+using PoC.ES.Api.Results;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
-    public class Cycle : IEquatable<Cycle>
+    public class Cycle : IEquatable<Cycle>, IValidated
     {
         public Cycle(CycleType type)
         {
@@ -22,26 +24,25 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _limitLevels.AddRange(value);
         }
 
-        public IEnumerable<(string Code, string Message)> AddLimitLevels(IEnumerable<LimitLevel> limitLevels)
-        {
-            foreach (var limitLevel in limitLevels)
-                yield return AddLimitLevel(limitLevel);
-        }
-        
-
-        public (string Code, string Message) AddLimitLevel(LimitLevel limitLevel)
-        {
-            var alreadyHave = _limitLevels.Any(l => l.Equals(limitLevel));
-            if (alreadyHave) return MessageOfDomain.AlreadyItem;
-
-            _limitLevels.Add(limitLevel);
-            return MessageOfDomain.Success;
-        }
+        public void AddLimitLevels(IEnumerable<LimitLevel> limitLevels) => _limitLevels.AddRange(limitLevels);
+        public void AddLimitLevel(LimitLevel limitLevel) => _limitLevels.Add(limitLevel);
 
         public bool Equals(Cycle other)
         {
             return Type == other.Type;
         }
+
+        public ResultOfCommand Validate()
+        {
+            var result = ResultOfCommand.Create();
+
+            foreach (var limitLevel in LimitLevels)
+                if (LimitLevels.Where(p => p.Equals(limitLevel)).Count() > 1)
+                    result.AddErrorMessage(MessageOfDomain.AlreadyHaveItem);
+
+            return result;
+        }
+
 
         public static Cycle Create(CycleType type) => new Cycle(type);
     }

@@ -13,12 +13,13 @@ namespace PoC.ES.Tests.Domain.Entities
             //arrange
             var limit = Limit.Create(LimitType.CashIn, FeatureType.TED);
             var limitCompany = LimitCompany.Create("123456");
-            
+            limitCompany.AddLimit(limit);
+
             //act
-            var result = limitCompany.AddLimit(limit);
+            var result = limitCompany.Validate();
 
             //assert
-            Assert.Equal(result, MessageOfDomain.Success);
+            Assert.True(result.IsValid);
         }
 
         [Fact]
@@ -32,10 +33,11 @@ namespace PoC.ES.Tests.Domain.Entities
             limitCompany.AddLimit(limit);
 
             //act
-            var result = limitCompany.AddLimit(limitDouble);
+            limitCompany.AddLimit(limitDouble);
+            var result = limitCompany.Validate();
 
             //assert
-            Assert.Equal(result, MessageOfDomain.AlreadyItem);
+            Assert.True(result.IsInvalid);
         }
     }
 }

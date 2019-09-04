@@ -30,7 +30,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
             var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
@@ -46,11 +46,11 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             var random = new Random();
             var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
 
             //act
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.DOC));
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
             var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
@@ -77,7 +77,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(limit);
 
             //act
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
             var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
@@ -108,11 +108,11 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             limit2.AddCycle(cycle2);
 
             customer.AddLimit(limit);
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
 
             //act
             customer.AddLimit(limit2);
-            await _repository.AddOrUpdateAsync(customer);
+            await _repository.SaveAsync(customer);
 
             var customerFound = await _repository.GetAsync(customer.Id);
 
