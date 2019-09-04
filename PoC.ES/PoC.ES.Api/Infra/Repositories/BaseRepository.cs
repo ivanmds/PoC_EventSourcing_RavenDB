@@ -25,7 +25,7 @@ namespace PoC.ES.Api.Infra.Repositories
         }
 
 
-        public void Add(TEntity entity)
+        public void AddOrUpdate(TEntity entity)
         {
             using (var session = Store.OpenSession())
             {

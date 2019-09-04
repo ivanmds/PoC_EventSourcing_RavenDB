@@ -4,7 +4,7 @@ namespace PoC.ES.Api.Domain.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : AggregateRoot
     {
-        void Add(TEntity entity);
+        void AddOrUpdate(TEntity entity);
         TEntity Get(string aggregateRootId);
     }
 }

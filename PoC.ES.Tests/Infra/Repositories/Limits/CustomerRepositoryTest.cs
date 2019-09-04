@@ -29,7 +29,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(Limit.Create(LimitType.CashIn, "TED"));
 
             //act
-            _repository.Add(customer);
+            _repository.AddOrUpdate(customer);
             var customerFound = _repository.Get(customer.Id);
 
             //assert
@@ -45,10 +45,11 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             var random = new Random();
             var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
             customer.AddLimit(Limit.Create(LimitType.CashIn, "TED"));
-            _repository.Add(customer);
+            _repository.AddOrUpdate(customer);
 
             //act
-            _repository.AddLimit(customer.Id, Limit.Create(LimitType.CashIn, "DOC"));
+            customer.AddLimit(Limit.Create(LimitType.CashIn, "DOC"));
+            _repository.AddOrUpdate(customer);
             var customerFound = _repository.Get(customer.Id);
 
             //assert
@@ -75,7 +76,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(limit);
 
             //act
-            _repository.Add(customer);
+            _repository.AddOrUpdate(customer);
             var customerFound = _repository.Get(customer.Id);
 
             //assert
@@ -84,6 +85,40 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             Assert.True(customerFound.Limits.Count == 1);
             Assert.True(customerFound.Limits.First().Cycles.Count == 1);
             Assert.True(customerFound.Limits.First().Cycles.First().LimitLevels.Count == 1);
+        }
+
+        [Fact]
+        public void AddLimitInCustomerComplex()
+        {
+            //arrange
+            var random = new Random();
+            var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
+
+            var limitLevel = LimitLevel.Create(LevelType.Card, 1000, 30);
+            var cycle = Cycle.Create(CycleType.Transaction);
+            cycle.AddLimitLevel(limitLevel);
+            var limit = Limit.Create(LimitType.CashIn, "TED");
+            limit.AddCycle(cycle);
+
+            var limitLevel2 = LimitLevel.Create(LevelType.Document, 1000, 30);
+            var cycle2 = Cycle.Create(CycleType.Transaction);
+            cycle2.AddLimitLevel(limitLevel2);
+            var limit2 = Limit.Create(LimitType.CashIn, "DOC");
+            limit2.AddCycle(cycle2);
+
+            customer.AddLimit(limit);
+            _repository.AddOrUpdate(customer);
+
+            //act
+            customer.AddLimit(limit2);
+            _repository.AddOrUpdate(customer);
+
+            var customerFound = _repository.Get(customer.Id);
+
+            //assert
+            Assert.NotNull(customerFound);
+            Assert.Equal(customer.Id, customerFound.Id);
+            Assert.True(customerFound.Limits.Count == 2);
         }
     }
 }
