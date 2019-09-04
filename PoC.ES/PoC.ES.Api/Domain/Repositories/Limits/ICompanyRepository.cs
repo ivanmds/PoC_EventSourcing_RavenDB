@@ -2,7 +2,7 @@
 
 namespace PoC.ES.Api.Domain.Repositories.Limits
 {
-    public interface ICompanyRepository : IBaseRepository<Company>
+    public interface ICompanyRepository : IBaseRepository<LimitCompany>
     {
     }
 }

@@ -1,4 +1,4 @@
-﻿using PoC.ES.Api.Domain.Types.Limits;
+﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
 using System.Collections.Generic;
 
 namespace PoC.ES.Api.Domain.Entities.Limits

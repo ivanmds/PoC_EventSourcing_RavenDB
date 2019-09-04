@@ -1,6 +1,6 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits;
+using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Repositories.Limits;
-using PoC.ES.Api.Domain.Types.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
 using System;
@@ -25,8 +25,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
-            customer.AddLimit(Limit.Create(LimitType.CashIn, "TED"));
+            var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
+            customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
             _repository.AddOrUpdate(customer);
@@ -43,12 +43,12 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
-            customer.AddLimit(Limit.Create(LimitType.CashIn, "TED"));
+            var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
+            customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
             _repository.AddOrUpdate(customer);
 
             //act
-            customer.AddLimit(Limit.Create(LimitType.CashIn, "DOC"));
+            customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.DOC));
             _repository.AddOrUpdate(customer);
             var customerFound = _repository.Get(customer.Id);
 
@@ -63,14 +63,14 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
+            var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
 
             var limitLevel = LimitLevel.Create(LevelType.Card, 1000, 30);
 
             var cycle = Cycle.Create(CycleType.Transaction);
             cycle.AddLimitLevel(limitLevel);
 
-            var limit = Limit.Create(LimitType.CashIn, "TED");
+            var limit = Limit.Create(LimitType.CashIn, FeatureType.TED);
             limit.AddCycle(cycle);
 
             customer.AddLimit(limit);
@@ -92,18 +92,18 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var customer = Customer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
+            var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
 
             var limitLevel = LimitLevel.Create(LevelType.Card, 1000, 30);
             var cycle = Cycle.Create(CycleType.Transaction);
             cycle.AddLimitLevel(limitLevel);
-            var limit = Limit.Create(LimitType.CashIn, "TED");
+            var limit = Limit.Create(LimitType.CashIn, FeatureType.TED);
             limit.AddCycle(cycle);
 
             var limitLevel2 = LimitLevel.Create(LevelType.Document, 1000, 30);
             var cycle2 = Cycle.Create(CycleType.Transaction);
             cycle2.AddLimitLevel(limitLevel2);
-            var limit2 = Limit.Create(LimitType.CashIn, "DOC");
+            var limit2 = Limit.Create(LimitType.CashIn, FeatureType.DOC);
             limit2.AddCycle(cycle2);
 
             customer.AddLimit(limit);

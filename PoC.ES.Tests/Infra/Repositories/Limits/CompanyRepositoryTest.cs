@@ -1,6 +1,6 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits;
+using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Repositories.Limits;
-using PoC.ES.Api.Domain.Types.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
 using System;
@@ -24,8 +24,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var company = Company.Create($"ACESSO{random.Next(1000, 10000)}");
-            company.AddLimit(Limit.Create(LimitType.CashIn, "TED"));
+            var company = LimitCompany.Create($"ACESSO{random.Next(1000, 10000)}");
+            company.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
             _repository.AddOrUpdate(company);

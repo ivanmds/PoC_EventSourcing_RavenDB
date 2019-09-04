@@ -3,7 +3,7 @@ using PoC.ES.Api.Domain.Repositories.Limits;
 
 namespace PoC.ES.Api.Infra.Repositories.Limits
 {
-    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
+    public class CustomerRepository : BaseRepository<LimitCustomer>, ICustomerRepository
     {
         public CustomerRepository() { }
         public CustomerRepository(string url) :base(url) { }
