@@ -2,7 +2,7 @@
 {
     public class Company: LimitConfiguration
     {
-        protected Company(string companyKey) : base(companyKey) { }
+        protected Company(string companyKey) : base(companyKey) => Id = companyKey;
 
         public static Company Create(string companyKey) => new Company(companyKey);
     }

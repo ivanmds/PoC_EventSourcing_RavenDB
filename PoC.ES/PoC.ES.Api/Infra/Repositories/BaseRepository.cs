@@ -1,9 +1,10 @@
-﻿using PoC.ES.Api.Domain.Repositories;
+﻿using PoC.ES.Api.Domain.Entities;
+using PoC.ES.Api.Domain.Repositories;
 using Raven.Client.Documents;
 
 namespace PoC.ES.Api.Infra.Repositories
 {
-    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : AggregateRoot
     {
         protected DocumentStore Store { get; private set; }
 

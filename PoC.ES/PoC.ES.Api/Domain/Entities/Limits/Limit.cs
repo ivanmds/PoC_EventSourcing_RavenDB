@@ -5,6 +5,13 @@ namespace PoC.ES.Api.Domain.Entities.Limits
 {
     public class Limit
     {
+        public Limit(LimitType type, string featureType, bool registrationCompleted = false)
+        {
+            Type = type;
+            FeatureType = featureType;
+            RegistrationCompleted = registrationCompleted;
+        }
+
         public LimitType Type { get; private set; }
         public string FeatureType { get; private set; }
         public bool RegistrationCompleted { get; private set; }
@@ -23,5 +30,8 @@ namespace PoC.ES.Api.Domain.Entities.Limits
         {
             _cycles.Add(cycle);
         }
+
+        public static Limit Create(LimitType type, string featureType, bool registrationCompleted = false) =>
+            new Limit(type, featureType, registrationCompleted);
     }
 }
