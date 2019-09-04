@@ -1,9 +1,12 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
+using PoC.ES.Api.Domain.Message;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
-    public class Limit
+    public class Limit : IEquatable<Limit>
     {
         public Limit(LimitType type, FeatureType featureType, bool registrationCompleted = false)
         {
@@ -23,9 +26,21 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _cycles.AddRange(value);
         }
 
-        public void AddCycle(Cycle cycle) => _cycles.Add(cycle);
+        public (string Code, string Message) AddCycle(Cycle cycle)
+        {
+            var alreadyHave = _cycles.Any(c => c.Equals(cycle));
+            if (alreadyHave) return MessageOfDomain.AlreadyItem;
+
+            _cycles.Add(cycle);
+            return MessageOfDomain.Success;
+        }
+
+        public bool Equals(Limit other)
+        {
+            return Type == other.Type && FeatureType == other.FeatureType;
+        }
 
         public static Limit Create(LimitType type, FeatureType featureType, bool registrationCompleted = false) =>
-            new Limit(type, featureType, registrationCompleted);
+           new Limit(type, featureType, registrationCompleted);
     }
 }

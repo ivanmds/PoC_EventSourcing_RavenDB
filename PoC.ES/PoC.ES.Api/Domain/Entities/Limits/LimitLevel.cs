@@ -1,8 +1,9 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
+using System;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
-    public class LimitLevel
+    public class LimitLevel : IEquatable<LimitLevel>
     {
         public LimitLevel(LevelType type, long maxValue, long minValue)
         {
@@ -15,7 +16,12 @@ namespace PoC.ES.Api.Domain.Entities.Limits
         public long MaxValue { get; private set; }
         public long MinValue { get; private set; }
 
+        public bool Equals(LimitLevel other)
+        {
+            return Type == other.Type;
+        }
+
         public static LimitLevel Create(LevelType type, long maxValue, long minValue)
-            => new LimitLevel(type, maxValue, minValue);
+          => new LimitLevel(type, maxValue, minValue);
     }
 }
