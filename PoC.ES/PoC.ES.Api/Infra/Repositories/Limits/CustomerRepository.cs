@@ -1,7 +1,7 @@
-﻿using PoC.ES.Api.Domain.Entities;
-using PoC.ES.Api.Domain.Repositories;
+﻿using PoC.ES.Api.Domain.Entities.Limits;
+using PoC.ES.Api.Domain.Repositories.Limits;
 
-namespace PoC.ES.Api.Infra.Repositories
+namespace PoC.ES.Api.Infra.Repositories.Limits
 {
     public class CustomerRepository : BaseRepository<LimitConfiguration>, ICustomerRepository
     {

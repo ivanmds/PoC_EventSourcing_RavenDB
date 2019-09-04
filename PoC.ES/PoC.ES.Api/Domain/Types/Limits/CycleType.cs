@@ -1,4 +1,4 @@
-﻿namespace PoC.ES.Api.Domain.Types
+﻿namespace PoC.ES.Api.Domain.Types.Limits
 {
     public enum CycleType
     {

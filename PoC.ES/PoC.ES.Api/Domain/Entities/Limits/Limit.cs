@@ -1,7 +1,7 @@
-﻿using PoC.ES.Api.Domain.Types;
+﻿using PoC.ES.Api.Domain.Types.Limits;
 using System.Collections.Generic;
 
-namespace PoC.ES.Api.Domain.Entities
+namespace PoC.ES.Api.Domain.Entities.Limits
 {
     public class Limit
     {

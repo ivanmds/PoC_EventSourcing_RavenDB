@@ -1,7 +1,7 @@
-﻿using PoC.ES.Api.Domain.Entities;
-using PoC.ES.Api.Domain.Repositories;
+﻿using PoC.ES.Api.Domain.Entities.Limits;
+using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Infra;
-using PoC.ES.Api.Infra.Repositories;
+using PoC.ES.Api.Infra.Repositories.Limits;
 using Xunit;
 
 namespace PoC.ES.Tests.Infra.Repositories

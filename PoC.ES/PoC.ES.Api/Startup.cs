@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using PoC.ES.Api.Domain.Repositories;
+using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Infra;
-using PoC.ES.Api.Infra.Repositories;
+using PoC.ES.Api.Infra.Repositories.Limits;
 
 namespace PoC.ES.Api
 {

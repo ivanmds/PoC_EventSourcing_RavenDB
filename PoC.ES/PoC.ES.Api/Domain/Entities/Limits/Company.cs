@@ -1,4 +1,4 @@
-﻿namespace PoC.ES.Api.Domain.Entities
+﻿namespace PoC.ES.Api.Domain.Entities.Limits
 {
     public class Company: LimitConfiguration
     {
