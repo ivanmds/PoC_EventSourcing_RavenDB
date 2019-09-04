@@ -3,7 +3,7 @@ using PoC.ES.Api.Domain.Repositories;
 
 namespace PoC.ES.Api.Infra.Repositories
 {
-    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
+    public class CustomerRepository : BaseRepository<LimitConfiguration>, ICustomerRepository
     {
         public CustomerRepository() { }
         public CustomerRepository(string url) :base(url) { }
@@ -12,7 +12,7 @@ namespace PoC.ES.Api.Infra.Repositories
         {
             using (var session = Store.OpenSession())
             {
-                var customer = session.Load<Customer>(cutomerId);
+                var customer = session.Load<LimitConfiguration>(cutomerId);
                 if (customer is null) return;
 
                 customer.AddLimit(limit);

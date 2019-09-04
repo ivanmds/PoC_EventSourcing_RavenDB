@@ -2,7 +2,7 @@
 
 namespace PoC.ES.Api.Domain.Repositories
 {
-    public interface ICustomerRepository: IBaseRepository<Customer>
+    public interface ICustomerRepository: IBaseRepository<LimitConfiguration>
     {
         void AddLimit(string cutomerId, Limit limit);
     }
