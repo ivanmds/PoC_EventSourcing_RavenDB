@@ -1,6 +1,7 @@
 ﻿using PoC.ES.Api.Domain.Entities;
 using PoC.ES.Api.Domain.Repositories;
 using Raven.Client.Documents;
+using System.Threading.Tasks;
 
 namespace PoC.ES.Api.Infra.Repositories
 {
@@ -25,19 +26,19 @@ namespace PoC.ES.Api.Infra.Repositories
         }
 
 
-        public void AddOrUpdate(TEntity entity)
+        public async Task AddOrUpdateAsync(TEntity entity)
         {
-            using (var session = Store.OpenSession())
+            using (var session = Store.OpenAsyncSession())
             {
-                session.Store(entity);
-                session.SaveChanges();
+                await session.StoreAsync(entity);
+                await session.SaveChangesAsync();
             }
         }
 
-        public TEntity Get(string id)
+        public async Task<TEntity> GetAsync(string id)
         {
-            using (var session = Store.OpenSession())
-                return session.Load<TEntity>(id);
+            using (var session = Store.OpenAsyncSession())
+                return await session.LoadAsync<TEntity>(id);
         }
     }
 }

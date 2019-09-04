@@ -22,6 +22,13 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _limitLevels.AddRange(value);
         }
 
+        public IEnumerable<(string Code, string Message)> AddLimitLevels(IEnumerable<LimitLevel> limitLevels)
+        {
+            foreach (var limitLevel in limitLevels)
+                yield return AddLimitLevel(limitLevel);
+        }
+        
+
         public (string Code, string Message) AddLimitLevel(LimitLevel limitLevel)
         {
             var alreadyHave = _limitLevels.Any(l => l.Equals(limitLevel));

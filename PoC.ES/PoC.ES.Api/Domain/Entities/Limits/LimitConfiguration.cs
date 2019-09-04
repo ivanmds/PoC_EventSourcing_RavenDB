@@ -16,6 +16,12 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _limits.AddRange(value);
         }
 
+        public IEnumerable<(string Code, string Message)> AddLimits(IEnumerable<Limit> limits)
+        {
+            foreach (var limit in limits)
+                yield return AddLimit(limit);
+        }
+
         public (string Code, string Message) AddLimit(Limit limit)
         {
             var alreadyHave = _limits.Any(l => l.Equals(limit));

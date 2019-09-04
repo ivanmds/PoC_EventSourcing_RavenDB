@@ -26,6 +26,12 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             private set => _cycles.AddRange(value);
         }
 
+        public IEnumerable<(string Code, string Message)> AddCycles(IEnumerable<Cycle> cycles)
+        {
+            foreach (var cycle in cycles)
+                yield return AddCycle(cycle);
+        }
+
         public (string Code, string Message) AddCycle(Cycle cycle)
         {
             var alreadyHave = _cycles.Any(c => c.Equals(cycle));

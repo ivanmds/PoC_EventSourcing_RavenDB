@@ -5,6 +5,7 @@ using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PoC.ES.Tests.Infra.Repositories.Limits
@@ -21,7 +22,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         }
 
         [Fact]
-        public void AddNewCustomerSimple()
+        public async Task AddNewCustomerSimple()
         {
             //arrange
             var random = new Random();
@@ -29,8 +30,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
-            _repository.AddOrUpdate(customer);
-            var customerFound = _repository.Get(customer.Id);
+            await _repository.AddOrUpdateAsync(customer);
+            var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
             Assert.NotNull(customerFound);
@@ -39,18 +40,18 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         }
 
         [Fact]
-        public void AddLimitInCustomer()
+        public async Task AddLimitInCustomer()
         {
             //arrange
             var random = new Random();
             var customer = LimitCustomer.Create($"ACESSO", $"document{random.Next(1000, 10000)}");
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
-            _repository.AddOrUpdate(customer);
+            await _repository.AddOrUpdateAsync(customer);
 
             //act
             customer.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.DOC));
-            _repository.AddOrUpdate(customer);
-            var customerFound = _repository.Get(customer.Id);
+            await _repository.AddOrUpdateAsync(customer);
+            var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
             Assert.NotNull(customerFound);
@@ -59,7 +60,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         }
 
         [Fact]
-        public void AddNewCustomerComplex()
+        public async Task AddNewCustomerComplex()
         {
             //arrange
             var random = new Random();
@@ -76,8 +77,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             customer.AddLimit(limit);
 
             //act
-            _repository.AddOrUpdate(customer);
-            var customerFound = _repository.Get(customer.Id);
+            await _repository.AddOrUpdateAsync(customer);
+            var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
             Assert.NotNull(customerFound);
@@ -88,7 +89,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         }
 
         [Fact]
-        public void AddLimitInCustomerComplex()
+        public async Task AddLimitInCustomerComplex()
         {
             //arrange
             var random = new Random();
@@ -107,13 +108,13 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             limit2.AddCycle(cycle2);
 
             customer.AddLimit(limit);
-            _repository.AddOrUpdate(customer);
+            await _repository.AddOrUpdateAsync(customer);
 
             //act
             customer.AddLimit(limit2);
-            _repository.AddOrUpdate(customer);
+            await _repository.AddOrUpdateAsync(customer);
 
-            var customerFound = _repository.Get(customer.Id);
+            var customerFound = await _repository.GetAsync(customer.Id);
 
             //assert
             Assert.NotNull(customerFound);

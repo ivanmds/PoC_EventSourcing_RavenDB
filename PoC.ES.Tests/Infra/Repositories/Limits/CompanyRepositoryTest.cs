@@ -4,6 +4,7 @@ using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PoC.ES.Tests.Infra.Repositories.Limits
@@ -20,7 +21,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         }
 
         [Fact]
-        public void AddNewCustomerSimple()
+        public async Task AddNewCustomerSimple()
         {
             //arrange
             var random = new Random();
@@ -28,8 +29,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             company.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
-            _repository.AddOrUpdate(company);
-            var companyFound = _repository.Get(company.Id);
+            await _repository.AddOrUpdateAsync(company);
+            var companyFound = await _repository.GetAsync(company.Id);
 
             //assert
             Assert.NotNull(companyFound);
