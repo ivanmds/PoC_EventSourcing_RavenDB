@@ -18,8 +18,4 @@
     <PackageReference Include="RavenDB.Client" Version="4.2.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\Queries\Limits\" />
-  </ItemGroup>
-
 </Project>

@@ -7,7 +7,7 @@
         {
             DocumentNumber = documentNumber;
             RegistrationCompleted = registrationCompleted;
-            Id = GetId();
+            Id = GetId(CompanyKey, DocumentNumber);
         }
 
         public string DocumentNumber { get; private set; }
@@ -16,6 +16,6 @@
         public static LimitCustomer Create(string companyKey, string documentNumber, bool registrationCompleted = false)
             => new LimitCustomer(companyKey, documentNumber, registrationCompleted);
 
-        protected string GetId() => $"{CompanyKey}#{DocumentNumber}";
+        public static string GetId(string companyKey, string documentNumber) => $"{companyKey}#{documentNumber}";
     }
 }
