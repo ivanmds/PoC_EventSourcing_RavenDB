@@ -1,4 +1,4 @@
-﻿namespace PoC.ES.Api.Domain.Commands.Limits.Dtos
+﻿namespace PoC.ES.Api.Domain.Limits.Dtos
 {
     public class LimitCompanyDto : LimitConfigurationDto
     {

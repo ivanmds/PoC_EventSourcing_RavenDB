@@ -1,6 +1,6 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
 
-namespace PoC.ES.Api.Domain.Commands.Limits.Dtos
+namespace PoC.ES.Api.Domain.Limits.Dtos
 {
     public class LimitLevelDto
     {

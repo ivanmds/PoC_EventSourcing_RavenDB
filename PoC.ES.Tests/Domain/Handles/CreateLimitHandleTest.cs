@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
 using PoC.ES.Api.Domain.Commands.Limits;
-using PoC.ES.Api.Domain.Commands.Limits.Dtos;
+using PoC.ES.Api.Domain.Limits.Dtos;
 using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Handles.Limits;

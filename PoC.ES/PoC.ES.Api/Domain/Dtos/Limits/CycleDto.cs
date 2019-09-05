@@ -1,7 +1,7 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
 using System.Collections.Generic;
 
-namespace PoC.ES.Api.Domain.Commands.Limits.Dtos
+namespace PoC.ES.Api.Domain.Limits.Dtos
 {
     public class CycleDto
     {

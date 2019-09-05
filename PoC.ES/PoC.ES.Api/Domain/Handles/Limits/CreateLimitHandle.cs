@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using PoC.ES.Api.Domain.Commands.Limits;
-using PoC.ES.Api.Domain.Commands.Limits.Dtos;
+using PoC.ES.Api.Domain.Limits.Dtos;
 using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Results;
