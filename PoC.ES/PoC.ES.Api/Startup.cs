@@ -23,9 +23,11 @@ namespace PoC.ES.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //TODO: Change config
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
-            services.AddTransient<ICompanyRepository, CompanyRepository>();
+            //TODO: Change config 
+            services.AddTransient<ICustomerCommandRepository, CustomerCommandRepository>();
+            services.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddTransient<ICustomerCommandRepository, CustomerCommandRepository>();
+            services.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 

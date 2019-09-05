@@ -14,12 +14,12 @@ namespace PoC.ES.Tests.Domain.Handles
 {
     public class CreateLimitHandleTest
     {
-        private ICompanyRepository _companyRepository;
+        private ICompanyCommandRepository _companyRepository;
         private CreateLimitHandle _handle;
 
         public CreateLimitHandleTest()
         {
-            _companyRepository = Substitute.For<ICompanyRepository>();
+            _companyRepository = Substitute.For<ICompanyCommandRepository>();
             _handle = new CreateLimitHandle(_companyRepository);
         }
 

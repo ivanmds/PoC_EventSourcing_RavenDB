@@ -13,9 +13,9 @@ namespace PoC.ES.Api.Domain.Handles.Limits
 {
     public class CreateLimitHandle : IRequestHandler<CreateLimitCompanyCommand, ResultOfCommand>
     {
-        private readonly ICompanyRepository _companyRepository;
+        private readonly ICompanyCommandRepository _companyRepository;
 
-        public CreateLimitHandle(ICompanyRepository companyRepository)
+        public CreateLimitHandle(ICompanyCommandRepository companyRepository)
         {
             _companyRepository = companyRepository;
         }

@@ -11,12 +11,14 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
 {
     public class CompanyRepositoryTest
     {
-        private ICompanyRepository _repository;
+        private ICompanyCommandRepository _repositoryCommand;
+        private ICompanyQueryRepository _repositoryQuery;
 
         public CompanyRepositoryTest()
         {
             var url = "http://localhost:8080";
-            _repository = new CompanyRepository(url);
+            _repositoryCommand = new CompanyCommandRepository(url);
+            _repositoryQuery = new CompanyQueryRepository(url);
             Settings.LoadDatabase(url);
         }
 
@@ -29,8 +31,8 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
             company.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act
-            await _repository.SaveAsync(company);
-            var companyFound = await _repository.GetAsync(company.Id);
+            await _repositoryCommand.SaveAsync(company);
+            var companyFound = await _repositoryQuery.GetAsync(company.Id);
 
             //assert
             Assert.NotNull(companyFound);
