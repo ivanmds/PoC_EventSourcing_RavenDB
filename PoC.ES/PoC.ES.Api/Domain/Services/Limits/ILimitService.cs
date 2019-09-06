@@ -1,4 +1,5 @@
-﻿using PoC.ES.Api.Domain.Entities.Limits;
+﻿using PoC.ES.Api.Domain.Dtos.Limits;
+using PoC.ES.Api.Domain.Entities.Limits;
 using System.Threading.Tasks;
 
 namespace PoC.ES.Api.Domain.Services.Limits
