@@ -16,16 +16,20 @@ namespace PoC.ES.Api.Domain.Entities.Limits
         public string DocumentNumber { get; private set; }
         public bool RegistrationCompleted { get; private set; }
 
-        public bool HasLimitLevel(LimitType limitType, FeatureType featureType, CycleType cycleType, LevelType levelType)
+        public LimitLevel GetLimitLevel(LimitType limitType, FeatureType featureType, CycleType cycleType, LevelType levelType)
         {
             var limit = Limits.FirstOrDefault(l => l.Type == limitType && l.FeatureType == featureType);
-            if (limit is null) return false;
+            if (limit is null) return null;
 
             var cycle = limit.Cycles.FirstOrDefault(c => c.Type == cycleType);
-            if (cycle is null) return false;
+            if (cycle is null) return null;
 
-            return cycle.LimitLevels.Any(l => l.Type == levelType);
+            return cycle.LimitLevels.FirstOrDefault(l => l.Type == levelType);
         }
+
+
+        public bool HasLimitLevel(LimitType limitType, FeatureType featureType, CycleType cycleType, LevelType levelType)
+            => !(GetLimitLevel(limitType, featureType, cycleType, levelType) is null);
 
         public bool NotHasLimitLevel(LimitType limitType, FeatureType featureType, CycleType cycleType, LevelType levelType)
             => !HasLimitLevel(limitType, featureType, cycleType, levelType);
@@ -48,6 +52,7 @@ namespace PoC.ES.Api.Domain.Entities.Limits
 
             cycle.AddLimitLevel(limitLevel);
         }
+
 
 
         public static LimitCustomer Create(string companyKey, string documentNumber, bool registrationCompleted = false)
