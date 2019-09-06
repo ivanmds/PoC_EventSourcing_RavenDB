@@ -13,12 +13,10 @@ namespace PoC.ES.Api.Infra
 
         public static void LoadDatabase(string url = null)
         {
-            if (url is null)
-                url = "http://raven_db:8080";
+            if (url is null) url = "http://raven_db:8080";
 
             var store = new DocumentStore { Urls = new[] { url }, Database = DataBase };
             store.Initialize();
-
 
             var operation = new GetDatabaseNamesOperation(0, 100);
             var databases = store.Maintenance.Server.Send(operation);
@@ -29,7 +27,7 @@ namespace PoC.ES.Api.Infra
                 store.Maintenance.Server.Send(createDb);
             }
 
-            //new LimitCustomerQueryIndex().Execute(store);
+            new LimitUsedIndex().Execute(store);
         }
     }
 }

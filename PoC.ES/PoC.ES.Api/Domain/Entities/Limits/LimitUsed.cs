@@ -1,15 +1,16 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
 using System;
 
-namespace PoC.ES.Api.Domain.Entities
+namespace PoC.ES.Api.Domain.Entities.Limits
 {
     public class LimitUsed : AggregateRoot
     {
-        public LimitUsed(string companyKey, 
-                         string documentNumber, 
-                         LimitType limitType, 
-                         FeatureType featureType, 
-                         CycleType cycleType, 
+        public LimitUsed(string companyKey,
+                         string documentNumber,
+                         LimitType limitType,
+                         FeatureType featureType,
+                         CycleType cycleType,
+                         LevelType levelType,
                          long amount)
         {
             CompanyKey = companyKey;
@@ -17,6 +18,7 @@ namespace PoC.ES.Api.Domain.Entities
             LimitType = limitType;
             FeatureType = featureType;
             CycleType = cycleType;
+            LevelType = levelType;
             Amount = amount;
             Timestamp = DateTime.Now;
         }
@@ -35,7 +37,8 @@ namespace PoC.ES.Api.Domain.Entities
                          LimitType limitType,
                          FeatureType featureType,
                          CycleType cycleType,
+                         LevelType levelType,
                          long amount)
-            => new LimitUsed(companyKey, documentNumber, limitType, featureType, cycleType, amount);
+            => new LimitUsed(companyKey, documentNumber, limitType, featureType, cycleType, levelType, amount);
     }
 }
