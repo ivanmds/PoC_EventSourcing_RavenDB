@@ -29,6 +29,8 @@ namespace PoC.ES.Api
             services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
             services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddScoped<ILimitUsedCommandRepository, LimitUsedCommandRepository>();
+            services.AddScoped<ILimitUsedQueryRepository, LimitUsedQueryRepository>();
             services.AddScoped<ILimitService, LimitService>();
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);

@@ -16,10 +16,9 @@ namespace PoC.ES.Api.Domain.Entities.Limits
         public long MaxValue { get; private set; }
         public long MinValue { get; private set; }
 
-        public bool Equals(LimitLevel other)
-        {
-            return Type == other.Type;
-        }
+        public void DecreaseMaxValue(long value) => MaxValue -= value;
+
+        public bool Equals(LimitLevel other) => Type == other.Type;
 
         public static LimitLevel Create(LevelType type, long maxValue, long minValue)
           => new LimitLevel(type, maxValue, minValue);
