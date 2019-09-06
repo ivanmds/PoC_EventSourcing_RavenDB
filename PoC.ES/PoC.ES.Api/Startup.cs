@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PoC.ES.Api.Domain.Repositories.Limits;
+using PoC.ES.Api.Domain.Services.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
 using System.Reflection;
@@ -23,11 +24,12 @@ namespace PoC.ES.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //TODO: Change config 
-            services.AddTransient<ICustomerCommandRepository, CustomerCommandRepository>();
-            services.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
-            services.AddTransient<ICustomerCommandRepository, CustomerCommandRepository>();
-            services.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
+            //TODO: Change config IoC
+            services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
+            services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
+            services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddScoped<ILimitService, LimitService>();
 
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 

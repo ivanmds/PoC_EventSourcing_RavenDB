@@ -1,4 +1,5 @@
-﻿using Raven.Client.Documents;
+﻿using PoC.ES.Api.Infra.Repositories.Limits.Indexs;
+using Raven.Client.Documents;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
 using System;
@@ -15,7 +16,7 @@ namespace PoC.ES.Api.Infra
             if (url is null)
                 url = "http://raven_db:8080";
 
-            var store = new DocumentStore { Urls = new[] { url } };
+            var store = new DocumentStore { Urls = new[] { url }, Database = DataBase };
             store.Initialize();
 
 
@@ -27,6 +28,8 @@ namespace PoC.ES.Api.Infra
                 var createDb = new CreateDatabaseOperation(new DatabaseRecord(DataBase));
                 store.Maintenance.Server.Send(createDb);
             }
+
+            //new LimitCustomerQueryIndex().Execute(store);
         }
     }
 }
