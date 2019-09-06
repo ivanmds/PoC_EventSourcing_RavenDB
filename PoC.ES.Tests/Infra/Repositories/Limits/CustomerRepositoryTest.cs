@@ -12,7 +12,6 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
 {
     public class CustomerRepositoryTest
     {
-        private ICompanyCommandRepository _repositoryCommandCompany;
         private ICustomerCommandRepository _repositoryCommand;
         private ICustomerQueryRepository _repositoryQuery;
 
@@ -20,7 +19,6 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         public CustomerRepositoryTest()
         {
             var url = "http://localhost:8080";
-            _repositoryCommandCompany = new CompanyCommandRepository(url);
             _repositoryCommand = new CustomerCommandRepository(url);
             _repositoryQuery = new CustomerQueryRepository(url);
 
