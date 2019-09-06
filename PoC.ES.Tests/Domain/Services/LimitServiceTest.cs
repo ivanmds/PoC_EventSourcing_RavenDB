@@ -81,8 +81,9 @@ namespace PoC.ES.Tests.Domain.Services
             var cycleType = CycleType.Monthly;
             var levelType = LevelType.Account;
             var limitUsedMax = 600;
+            var limitMaxValue = 80000;
 
-            var limitLevel = LimitLevel.Create(levelType, 80000, 6000);
+            var limitLevel = LimitLevel.Create(levelType, limitMaxValue, 6000);
             var customer = GetLimitCustomer(limitType, featureType, cycleType, limitLevel);
 
             var limitUsed = new LimitLevelResumeDto() { CompanyKey = company.CompanyKey, DocumentNumber = documentNumber, LimitType = limitType, FeatureType = featureType, CycleType = cycleType, LevelType = levelType, Amount = limitUsedMax };
@@ -99,8 +100,8 @@ namespace PoC.ES.Tests.Domain.Services
             //assert
             Assert.NotNull(limitLevelGet);
             Assert.Equal(limitLevel.Type, limitLevelGet.Type);
-            Assert.Equal(limitLevel.MaxValue, limitLevelGet.MaxValue);
-            Assert.Equal(limitLevel.MinValue - limitUsedMax, limitLevelGet.MinValue);
+            Assert.Equal(limitMaxValue - limitUsedMax, limitLevelGet.MaxValue);
+            Assert.Equal(limitLevel.MinValue, limitLevelGet.MinValue);
         }
 
 

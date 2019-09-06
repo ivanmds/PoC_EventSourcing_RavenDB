@@ -36,23 +36,23 @@ namespace PoC.ES.Api.Domain.Services.Limits
                 foreach (var cycle in limit.Cycles)
                     foreach (var limitLevel in cycle.LimitLevels)
                     {
+                        var limitLevelCustomer = limitCustomer.GetLimitLevel(limit.Type, limit.FeatureType, cycle.Type, limitLevel.Type) ?? limitLevel;
                         var limitResume = GetResume(limitUseds, limit.Type, limit.FeatureType, cycle.Type, limitLevel.Type);
-                        if(!(limitResume is null)) limitLevel.DecreaseMaxValue(limitResume.Amount);
 
-                        if (limitCustomer.NotHasLimitLevel(limit.Type, limit.FeatureType, cycle.Type, limitLevel.Type))
-                            limitCustomer.AddLimitLevel(limit.Type, limit.FeatureType, cycle.Type, limitLevel);
+                        if(!(limitResume is null)) limitLevelCustomer.DecreaseMaxValue(limitResume.Amount);
+                        limitCustomer.AddLimitLevel(limit.Type, limit.FeatureType, cycle.Type, limitLevelCustomer);
                     }
 
 
             return limitCustomer;
         }
 
-        private LimitLevelResumeDto GetResume(IEnumerable<LimitLevelResumeDto> limitUseds, 
-                                              LimitType limitType, 
-                                              FeatureType featureType, 
+        private LimitLevelResumeDto GetResume(IEnumerable<LimitLevelResumeDto> limitUseds,
+                                              LimitType limitType,
+                                              FeatureType featureType,
                                               CycleType cycleType,
                                               LevelType levelType)
-            => limitUseds.FirstOrDefault(l  => l.LimitType == limitType &&
+            => limitUseds.FirstOrDefault(l => l.LimitType == limitType &&
                                                    l.FeatureType == featureType &&
                                                    l.CycleType == cycleType &&
                                                    l.LevelType == levelType);
