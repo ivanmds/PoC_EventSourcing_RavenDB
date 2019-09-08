@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using PoC.ES.Api.Domain.Commands.Limits;
+using PoC.ES.Api.Domain.Dtos.Limits;
 using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Message;
 using PoC.ES.Api.Domain.Repositories.Limits;
@@ -10,7 +11,7 @@ using PoC.ES.Api.Results;
 
 namespace PoC.ES.Api.Domain.Handles.Limits
 {
-    public class LimitReserveHandle : IRequestHandler<ReserveLimitCommand, ResultOfCommand>
+    public class LimitReserveHandle : IRequestHandler<ReserveLimitCommand, ResultOfCommandData<LimitAvaliableDto>>
     {
         private readonly ILimitUsedCommandRepository _limitUsedCommand;
         private readonly ILimitService _limitService;
@@ -21,9 +22,9 @@ namespace PoC.ES.Api.Domain.Handles.Limits
             _limitService = limitService;
         }
 
-        public async Task<ResultOfCommand> Handle(ReserveLimitCommand request, CancellationToken cancellationToken)
+        public async Task<ResultOfCommandData<LimitAvaliableDto>> Handle(ReserveLimitCommand request, CancellationToken cancellationToken)
         {
-            var result = ResultOfCommand.Create();
+            var result = new ResultOfCommandData<LimitAvaliableDto>();
             var limitCustomer = await _limitService.GetLimitAsync(request.CompanyKey, request.DocumentNumber);
 
             var limitLevel = limitCustomer.GetLimitLevel(request.LimitType, request.FeatureType, request.CycleType, request.LevelType);
@@ -39,15 +40,11 @@ namespace PoC.ES.Api.Domain.Handles.Limits
                                                  request.Amount);
 
                 await _limitUsedCommand.SaveAsync(limitUsed);
-                result.Data = new { AmountUsed = request.Amount, HasLimit = limitLevel.MaxValue - request.Amount };
+                result.Data = new LimitAvaliableDto { AmountUsed = request.Amount, LimitAvaliable = limitLevel.MaxValue - request.Amount };
             }
             else
-            {
                 result.AddErrorMessage(MessageOfDomain.DontHaveLimit);
-                result.Data = request;
-            }
 
-            
             return result;
         }
     }

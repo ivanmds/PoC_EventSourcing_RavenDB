@@ -1,6 +1,5 @@
 ﻿using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Entities.Limits.Types;
-using System.Collections.Generic;
 using Xunit;
 
 namespace PoC.ES.Tests.Domain.Entities
@@ -39,8 +38,5 @@ namespace PoC.ES.Tests.Domain.Entities
             //assert
             Assert.True(result.IsInvalid);
         }
-
-
-       
     }
 }

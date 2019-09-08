@@ -30,8 +30,6 @@ namespace PoC.ES.Api.Domain.Handles.Limits
 
             if (result.IsValid)
                 await _companyRepository.SaveAsync(limitCompany);
-            else
-                result.Data = request;
 
             return result;
         }

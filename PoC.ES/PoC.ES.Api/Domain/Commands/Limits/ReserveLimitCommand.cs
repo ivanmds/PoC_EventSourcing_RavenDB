@@ -4,7 +4,7 @@ using PoC.ES.Api.Results;
 
 namespace PoC.ES.Api.Domain.Commands.Limits
 {
-    public class ReserveLimitCommand : LimitLevelResumeDto, IRequest<ResultOfCommand>
+    public class ReserveLimitCommand : LimitLevelResumeDto, IRequest<ResultOfCommandData<LimitAvaliableDto>>
     {
     }
 }

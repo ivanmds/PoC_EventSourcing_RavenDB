@@ -11,8 +11,6 @@ namespace PoC.ES.Api.Results
         public List<(string Code, string Message)> ErrorMessagens { get; private set; }
             = new List<(string Code, string Message)>();
 
-        public object Data { get; set; }
-
         public ResultOfCommand AddErrorMessage((string Code, string Message) message)
         {
             ErrorMessagens.Add(message);
