@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using PoC.ES.Api.Domain.Commands.Limits;
 using PoC.ES.Api.Domain.Services.Limits;
 using System.Threading.Tasks;
 
@@ -9,8 +11,13 @@ namespace PoC.ES.Api.Controllers
     public class LimitsController : ControllerBase
     {
         private readonly ILimitService _limitService;
+        private readonly IMediator _mediator;
 
-        public LimitsController(ILimitService limitService) => _limitService = limitService;
+        public LimitsController(ILimitService limitService, IMediator mediator)
+        {
+            _limitService = limitService;
+            _mediator = mediator;
+        }
 
 
         [HttpGet("{companyKey}/{documentNumber}")]
@@ -23,5 +30,19 @@ namespace PoC.ES.Api.Controllers
             return Ok(limitCustomer);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] CreateLimitCompanyCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
+        [HttpPut("reserveLimit")]
+        public async Task<IActionResult> ReserveLimit([FromBody] ReserveLimitCommand command)
+        {
+            var result =  await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }

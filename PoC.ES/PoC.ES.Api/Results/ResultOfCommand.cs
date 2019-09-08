@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PoC.ES.Api.Results
@@ -6,6 +7,8 @@ namespace PoC.ES.Api.Results
     public class ResultOfCommand
     {
         public bool IsValid => !IsInvalid;
+
+        [JsonIgnore]
         public bool IsInvalid => ErrorMessagens.Any();
 
         public List<(string Code, string Message)> ErrorMessagens { get; private set; }
