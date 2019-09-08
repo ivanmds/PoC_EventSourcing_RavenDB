@@ -3,6 +3,7 @@ using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Infra;
 using PoC.ES.Api.Infra.Repositories.Limits;
+using PoC.ES.Tests.Fixtures;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -27,7 +28,7 @@ namespace PoC.ES.Tests.Infra.Repositories.Limits
         {
             //arrange
             var random = new Random();
-            var company = LimitCompany.Create($"ACESSO{random.Next(1000, 10000)}");
+            var company = Fixture.GetLimitCompanyValid();
             company.AddLimit(Limit.Create(LimitType.CashIn, FeatureType.TED));
 
             //act

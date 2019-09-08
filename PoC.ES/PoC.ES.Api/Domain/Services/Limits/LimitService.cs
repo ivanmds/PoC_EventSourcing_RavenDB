@@ -26,6 +26,8 @@ namespace PoC.ES.Api.Domain.Services.Limits
         public async Task<LimitCustomer> GetLimitAsync(string companyKey, string documentNumber)
         {
             var limitCompany = await _companyQuery.GetAsync(companyKey);
+            if (limitCompany is null) return null;
+
             var limitCustomer = await _customerQuery.GetAsync(LimitCustomer.GetId(companyKey, documentNumber));
             var limitUseds = await _limitUsedQuery.GetResumeAsync(companyKey, documentNumber);
 

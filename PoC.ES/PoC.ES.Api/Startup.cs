@@ -25,10 +25,10 @@ namespace PoC.ES.Api
         public void ConfigureServices(IServiceCollection services)
         {
             //TODO: Change config IoC
-            services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
+            services.AddScoped<ICompanyCommandRepository, CompanyCommandRepository>();
             services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
             services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-            services.AddScoped<ICompanyQueryRepository, CompanyQueryRepository>();
+            services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
             services.AddScoped<ILimitUsedCommandRepository, LimitUsedCommandRepository>();
             services.AddScoped<ILimitUsedQueryRepository, LimitUsedQueryRepository>();
             services.AddScoped<ILimitService, LimitService>();
