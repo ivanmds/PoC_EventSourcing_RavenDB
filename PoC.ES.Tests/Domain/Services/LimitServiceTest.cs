@@ -4,7 +4,7 @@ using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Domain.Services.Limits;
-using PoC.ES.Tests.Domain.Entities;
+using PoC.ES.Tests.Fixtures;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -31,7 +31,7 @@ namespace PoC.ES.Tests.Domain.Services
         public async Task GetLimit()
         {
             //arrange
-            var company = LimitCompanyTest.GetLimitCompanyValid();
+            var company = Fixture.GetLimitCompanyValid();
             _companyRepositoryQuery.GetAsync(Arg.Any<string>()).Returns(company);
             _customerRepositoryQuery.GetAsync(Arg.Any<string>()).Returns((LimitCustomer)null);
 
@@ -46,7 +46,7 @@ namespace PoC.ES.Tests.Domain.Services
         public async Task GetLimitJoinWithLimitCustomer()
         {
             //arrange
-            var company = LimitCompanyTest.GetLimitCompanyValid();
+            var company = Fixture.GetLimitCompanyValid();
             var documentNumber = "document123";
             var limitType = LimitType.CashIn;
             var featureType = FeatureType.TED;
@@ -54,7 +54,7 @@ namespace PoC.ES.Tests.Domain.Services
             var levelType = LevelType.Account;
 
             var limitLevel = LimitLevel.Create(levelType, 80000, 6000);
-            var customer = GetLimitCustomer(limitType, featureType, cycleType, limitLevel);
+            var customer = Fixture.CreateLimitCustomer(limitType, featureType, cycleType, limitLevel);
 
             _companyRepositoryQuery.GetAsync(Arg.Any<string>()).Returns(company);
             _customerRepositoryQuery.GetAsync(Arg.Any<string>()).Returns(customer);
@@ -74,7 +74,7 @@ namespace PoC.ES.Tests.Domain.Services
         public async Task GetLimitJoinWithLimitCustomerWithLimitUsed()
         {
             //arrange
-            var company = LimitCompanyTest.GetLimitCompanyValid();
+            var company = Fixture.GetLimitCompanyValid();
             var documentNumber = "document123";
             var limitType = LimitType.CashIn;
             var featureType = FeatureType.TED;
@@ -84,7 +84,7 @@ namespace PoC.ES.Tests.Domain.Services
             var limitMaxValue = 80000;
 
             var limitLevel = LimitLevel.Create(levelType, limitMaxValue, 6000);
-            var customer = GetLimitCustomer(limitType, featureType, cycleType, limitLevel);
+            var customer = Fixture.CreateLimitCustomer(limitType, featureType, cycleType, limitLevel);
 
             var limitUsed = new LimitLevelResumeDto() { CompanyKey = company.CompanyKey, DocumentNumber = documentNumber, LimitType = limitType, FeatureType = featureType, CycleType = cycleType, LevelType = levelType, Amount = limitUsedMax };
             var listLimitUsed = new List<LimitLevelResumeDto> { limitUsed };
@@ -102,21 +102,6 @@ namespace PoC.ES.Tests.Domain.Services
             Assert.Equal(limitLevel.Type, limitLevelGet.Type);
             Assert.Equal(limitMaxValue - limitUsedMax, limitLevelGet.MaxValue);
             Assert.Equal(limitLevel.MinValue, limitLevelGet.MinValue);
-        }
-
-
-        private LimitCustomer GetLimitCustomer(LimitType limitType, FeatureType featureType, CycleType cycleType, LimitLevel limitLevel)
-        {
-            var customer = LimitCustomer.Create("ACESSO", "document123");
-
-            var cycle = Cycle.Create(cycleType);
-            cycle.AddLimitLevel(limitLevel);
-
-            var limit = Limit.Create(limitType, featureType);
-            limit.AddCycle(cycle);
-
-            customer.AddLimit(limit);
-            return customer;
         }
     }
 }

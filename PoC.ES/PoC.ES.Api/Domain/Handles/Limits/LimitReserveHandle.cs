@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using PoC.ES.Api.Domain.Commands.Limits;
+using PoC.ES.Api.Domain.Entities.Limits;
 using PoC.ES.Api.Domain.Message;
 using PoC.ES.Api.Domain.Repositories.Limits;
 using PoC.ES.Api.Domain.Services.Limits;
@@ -29,13 +30,24 @@ namespace PoC.ES.Api.Domain.Handles.Limits
 
             if (limitLevel.MaxValue > request.Amount)
             {
+                var limitUsed = LimitUsed.Create(request.CompanyKey,
+                                                 request.DocumentNumber,
+                                                 request.LimitType,
+                                                 request.FeatureType,
+                                                 request.CycleType,
+                                                 request.LevelType,
+                                                 request.Amount);
 
+                await _limitUsedCommand.SaveAsync(limitUsed);
+                result.Data = new { AmountUsed = request.Amount, HasLimit = limitLevel.MaxValue - request.Amount };
             }
             else
+            {
                 result.AddErrorMessage(MessageOfDomain.DontHaveLimit);
+                result.Data = request;
+            }
 
-
-
+            
             return result;
         }
     }
