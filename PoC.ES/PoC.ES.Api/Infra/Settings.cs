@@ -13,7 +13,7 @@ namespace PoC.ES.Api.Infra
 
         public static void LoadDatabase(string url = null)
         {
-            if (url is null) url = "http://raven_db:8080";
+            if (url is null) url = "http://0.0.0.0:8080";
 
             var store = new DocumentStore { Urls = new[] { url }, Database = DataBase };
             store.Initialize();
