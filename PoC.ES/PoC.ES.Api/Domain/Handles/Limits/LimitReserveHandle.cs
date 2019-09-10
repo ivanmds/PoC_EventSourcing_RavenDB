@@ -29,7 +29,7 @@ namespace PoC.ES.Api.Domain.Handles.Limits
 
             var limitLevel = limitCustomer.GetLimitLevel(request.LimitType, request.FeatureType, request.CycleType, request.LevelType);
 
-            if (limitLevel.MaxValue > request.Amount)
+            if (limitLevel.MaxValue >= request.Amount)
             {
                 var limitUsed = LimitUsed.Create(request.CompanyKey,
                                                  request.DocumentNumber,

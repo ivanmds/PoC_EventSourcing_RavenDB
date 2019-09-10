@@ -5,6 +5,8 @@ using System.Linq;
 using PoC.ES.Api.Domain.Message;
 using PoC.ES.Api.Domain.Validation;
 using PoC.ES.Api.Results;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
 {
@@ -15,7 +17,7 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             Type = type;
         }
 
-        public CycleType Type { get; private set; }
+        [JsonConverter(typeof(StringEnumConverter))] public CycleType Type { get; private set; }
 
         private List<LimitLevel> _limitLevels = new List<LimitLevel>();
         public IReadOnlyCollection<LimitLevel> LimitLevels

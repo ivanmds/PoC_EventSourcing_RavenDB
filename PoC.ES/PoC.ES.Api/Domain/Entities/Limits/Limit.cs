@@ -1,4 +1,6 @@
-﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PoC.ES.Api.Domain.Entities.Limits.Types;
 using PoC.ES.Api.Domain.Message;
 using PoC.ES.Api.Domain.Validation;
 using PoC.ES.Api.Results;
@@ -17,8 +19,8 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             RegistrationCompleted = registrationCompleted;
         }
 
-        public LimitType Type { get; private set; }
-        public FeatureType FeatureType { get; private set; }
+        [JsonConverter(typeof(StringEnumConverter))] public LimitType Type { get; private set; }
+        [JsonConverter(typeof(StringEnumConverter))] public FeatureType FeatureType { get; private set; }
         public bool RegistrationCompleted { get; private set; }
 
         private List<Cycle> _cycles = new List<Cycle>();

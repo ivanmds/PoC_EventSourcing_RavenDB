@@ -30,7 +30,7 @@ namespace PoC.ES.Api.Controllers
             return Ok(limitCustomer);
         }
 
-        [HttpPut]
+        [HttpPut("company")]
         public async Task<IActionResult> Put([FromBody] CreateLimitCompanyCommand command)
         {
             var result = await _mediator.Send(command);

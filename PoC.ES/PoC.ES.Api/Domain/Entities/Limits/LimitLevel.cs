@@ -1,4 +1,6 @@
-﻿using PoC.ES.Api.Domain.Entities.Limits.Types;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PoC.ES.Api.Domain.Entities.Limits.Types;
 using System;
 
 namespace PoC.ES.Api.Domain.Entities.Limits
@@ -12,7 +14,7 @@ namespace PoC.ES.Api.Domain.Entities.Limits
             MinValue = minValue;
         }
 
-        public LevelType Type { get; private set; }
+        [JsonConverter(typeof(StringEnumConverter))] public LevelType Type { get; private set; }
         public long MaxValue { get; private set; }
         public long MinValue { get; private set; }
 
