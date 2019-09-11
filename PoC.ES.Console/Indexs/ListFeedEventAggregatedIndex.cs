@@ -104,8 +104,8 @@ namespace PoC.ES.ConsoleApp.Indexs
                                     Name: g.values.reduce(getName).Name,
                                     TAG: g.values.reduce(getTAG).TAG,
                                     Value: g.values.reduce(getValue).Value,
-                                    Timestamp: g.values.reduce(getTimestamp).Timestamp,
-                                }
+                                    Timestamp: g.values.reduce(getTimestamp).Timestamp
+                                };
                             })";
 
         }

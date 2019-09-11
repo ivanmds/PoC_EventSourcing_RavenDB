@@ -6,6 +6,7 @@ namespace PoC.ES.ConsoleApp.Model
 {
     public class FeedEvent
     {
+        [JsonIgnore]
         public string Id { get; set; }
         public string AggregatedId { get; set; }
         [JsonConverter(typeof(StringEnumConverter))] public Category Category { get; set; }

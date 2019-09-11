@@ -27,13 +27,14 @@ namespace PoC.ES.ConsoleApp
                 //serssion.Store(new FeedEvent { AggregatedId = "8", Category = Category.Food, Status = Status.ACTIVATED, Name = "Buy snack 3", TAG = "Online", Value = 5.50 });
                 //serssion.Store(new FeedEvent { AggregatedId = "9", Category = Category.Food, Status = Status.ACTIVATED, Name = "Buy snack 4", TAG = "Online", Value = 99.99 });
 
-                //serssion.SaveChanges();
+                serssion.Store(new FeedEvent { AggregatedId = "9", Status = Status.DELETED });
+                serssion.SaveChanges();
 
 
                 var listFeeds = serssion.Query<FeedEvent, ListFeedEventAggregatedIndex>().ToList();
 
-                foreach(var feed in listFeeds)
-                    Console.WriteLine(JsonConvert.SerializeObject(feed));
+                foreach (var feed in listFeeds)
+                    Console.WriteLine(JsonConvert.SerializeObject(feed) + "\n");
             }
         }
     }
