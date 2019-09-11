@@ -1,4 +1,5 @@
-﻿using Raven.Client.Documents;
+﻿using PoC.ES.ConsoleApp.Indexs;
+using Raven.Client.Documents;
 using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace PoC.ES.ConsoleApp
                 var createDb = new CreateDatabaseOperation(new DatabaseRecord(dataBase));
                 store.Maintenance.Server.Send(createDb);
             }
+
+            new ListFeedEventAggregatedIndex().Execute(store);
 
             return store;
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 namespace PoC.ES.ConsoleApp.Model
 {
@@ -6,11 +8,11 @@ namespace PoC.ES.ConsoleApp.Model
     {
         public string Id { get; set; }
         public string AggregatedId { get; set; }
-        public Category Category { get; set; }
-        public Status Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))] public Category Category { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))] public Status? Status { get; set; }
         public string Name { get; set; }
         public string TAG { get; set; }
-        public double Value { get; set; }
+        public double? Value { get; set; }
         public DateTime Timestamp { get => DateTime.Now; }
     }
 }
