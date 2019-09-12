@@ -108,6 +108,7 @@ namespace PoC.ES.ConsoleApp.Indexs
                                 };
                             })";
 
+            OutputReduceToCollection = "ReduceFeedEvents";
         }
     }
 }
