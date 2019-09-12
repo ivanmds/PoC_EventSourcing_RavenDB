@@ -37,7 +37,7 @@ namespace PoC.ES.ConsoleApp
                 //foreach (var feed in listFeeds)
                 //    Console.WriteLine(JsonConvert.SerializeObject(feed) + "\n");
 
-                Seed();
+                //Seed();
             }
         }
 
@@ -74,6 +74,7 @@ namespace PoC.ES.ConsoleApp
 
                     Console.WriteLine(i);
                     session.SaveChanges();
+
                 }
             }
         }
